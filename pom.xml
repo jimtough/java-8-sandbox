@@ -9,10 +9,22 @@
 	<packaging>jar</packaging>
 
 	<properties>
+		<log4j.version>1.7.22</log4j.version>
+		<logback.version>1.1.8</logback.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
