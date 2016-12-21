@@ -16,7 +16,7 @@ public class MyOuterClass {
 	public String bar = "outer bar";
 
 	/**
-	 * Inner interface (implicitly static)
+	 * 
 	 */
 	public interface FooGetter {
 		String getFoo();
