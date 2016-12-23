@@ -74,6 +74,9 @@ public class LambdaFunctionsTest {
 		// Lambda block can reference an 'effectively final' variable in enclosing scope
 		String world = "world";
 		HelloWorldInterface lambda = () -> {
+			//  The following line would cause a compilation error because it redeclares a
+			//  local variable of the same name in the enclosing scope
+			//String hello = "not allowed";
 			String willBeSaid = "Final " + hello + ", " + world + "!";
 			LOGGER.debug(willBeSaid);
 		};
