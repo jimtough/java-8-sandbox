@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader type="ISBD-ER">
+    <fileDesc>
+      <titleStmt>
+        <title type="main">The call of the wild [Electronic resource] / Jack London</title>
+        <author>London, Jack, 1876-1916</author>
+      </titleStmt>
+      <extent>
+        <seg type="designation">Text data</seg>
+        <seg type="size">(1 file : ca. 174 kilobytes)</seg>
+      </extent>
+      <publicationStmt>
+        <authority>[Depositor details removed]<date>1993-05-20</date></authority>
+        <distributor>
+          <orgName type="OTA">University of Oxford Text Archive</orgName>
+          <placeName>Oxford</placeName>
+          <address>
+            <orgName type="OTA">University of Oxford Text Archive</orgName>
+            <orgName type="OUCS">Oxford University Computing
+          Services</orgName>
+            <addrLine>13 Banbury Road</addrLine>
+            <addrLine>Oxford</addrLine>
+            <addrLine>OX2 6NN</addrLine>
+          </address>
+          <email>ota@it.ox.ac.uk</email>
+        </distributor>
+        <idno type="ota">1869</idno>
+        <!--New OTA availability statement-->
+        <availability n="OTA-new" status="free" rend="visible">
+          <licence target="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+	  Distributed by the University of Oxford under a Creative Commons
+	  Attribution-NonCommercial-ShareAlike 3.0 Unported License.</licence>
+        </availability>
+        <!--Old Availability-->
+      </publicationStmt>
+      <notesStmt>
+        
+        <note>Title proper taken from electronic text</note>
+      </notesStmt>
+      <sourceDesc>
+        <biblFull>
+          <titleStmt>
+            <title>The call of the wild</title>
+            <author>London, Jack, 1876-1916</author>
+          </titleStmt>
+          <publicationStmt>
+            <publisher>s.n.</publisher>
+            <pubPlace>s.l.</pubPlace>
+            <date>s.d</date>
+          </publicationStmt>
+        </biblFull>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <editorialDecl>
+        <p>Encoding format: Plain text</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="OTASH">
+          <bibl>University of Oxford Text Archive Subject Headings</bibl>
+        </taxonomy>
+        <taxonomy xml:id="LCSH">
+          <bibl>Library of Congress Subject Headings</bibl>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <textClass>
+        <keywords scheme="#OTASH">
+          <term type="genre">Novels</term>
+        </keywords>
+        <keywords scheme="#LCSH">
+          <term type="genre">American fiction -- 20th century</term>
+        </keywords>
+      </textClass>
+      <textClass>
+        <keywords scheme="http://www.ota.ox.ac.uk/processing">
+          <term type="class">legacy</term>
+          <term type="license">Free for non-commercial use</term>
+        </keywords>
+      </textClass>
+    </profileDesc>
+    <revisionDesc>
+      <change><date>2002-02-26</date><label>Cataloguer</label><name>Colley, Greg</name>Header recomposed with TEIXML header
+      </change>
+      <change><date>1997-12-18</date><label>Converter</label><name>Burnard, Lou</name>Header auto-generated from TOMES
+      </change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="OTA-filemap" rend="visible" n="unrestricted">
+        <ab type="file">
+          <seg type="part">1</seg>
+          <seg type="mimetype">text/plain</seg>
+          <seg type="format">Unknown textual format</seg>
+          <ptr type="resourcePart" target="callwild.1869"/>
+        </ab>
+      </div>
+    </body>
+  </text>
+</TEI>
