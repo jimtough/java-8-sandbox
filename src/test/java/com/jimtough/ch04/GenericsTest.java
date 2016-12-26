@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-class GenericsTest {
+public class GenericsTest {
 	
 	@Test
 	public void testSum() {
