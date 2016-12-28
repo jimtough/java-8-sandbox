@@ -14,3 +14,7 @@ I am reading the following book to prepare:
 
 
 Much of my code is organized by book chapter, as reflected by the Java package structure.
+
+I already have the OCPJP 7 certification, so I will be taking the Java 8 upgrade test.
+My code will be focused on features that are either new to Java 8, or existing features
+that I need to brush up on before I take the exam.
