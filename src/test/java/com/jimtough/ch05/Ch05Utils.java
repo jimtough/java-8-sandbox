@@ -22,13 +22,30 @@ public class Ch05Utils {
 	public static final String G = "golf";
 
 	/**
-	 * Creates a new {@code List<String>} that contains each of the string constants from this class
-	 * in alphabetical order
+	 * Creates a new {@code List<String>} that contains each of the phonetic alphabet
+	 * string constants from this class, in alphabetical order
 	 * @return Non-null, non-empty {@code List<String>}
 	 */
 	public static List<String> newAlphabeticalStringList() {
 		List<String> stringList = new ArrayList<>();
 		stringList.addAll(Arrays.asList(A,B,C,D,E,F,G));
+		return stringList;
+	}
+	
+	public static final String ONE =   "1";
+	public static final String TWO =   "2";
+	public static final String THREE = "3";
+	public static final String FOUR =  "4";
+	public static final String FIVE =  "5";
+
+	/**
+	 * Creates a new {@code List<String>} that contains each of the integer string constants
+	 * from this class in alphabetical order
+	 * @return Non-null, non-empty {@code List<String>}
+	 */
+	public static List<String> newIntegerStringsList() {
+		List<String> stringList = new ArrayList<>();
+		stringList.addAll(Arrays.asList(ONE,TWO,THREE,FOUR,FIVE));
 		return stringList;
 	}
 	
