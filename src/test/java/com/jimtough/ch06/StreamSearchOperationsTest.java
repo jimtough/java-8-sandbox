@@ -16,12 +16,10 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jimtough.ch05.FunctionTest;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StreamSearchOperationsTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FunctionTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StreamSearchOperationsTest.class);
     
 	private List<String> stringList;
 
