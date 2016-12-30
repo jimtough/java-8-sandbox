@@ -3,13 +3,12 @@ package com.jimtough.ch06;
 import static com.jimtough.ch06.Ch06Utils.*;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.function.BinaryOperator;
 import java.util.function.IntBinaryOperator;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -36,9 +35,8 @@ public class StreamDataAndCalculationMethodsTest {
     
 	@Before
 	public void setUp() {
-		unsortedStringList = new ArrayList<>();
-		unsortedStringList.addAll(Arrays.asList(B,D,G,C,A,F,E));
-		unsortedIntArray = new int[] {6,3,9,2,4,1,8,10,7,5};
+		unsortedStringList = newDistinctButUnsortedStringList();
+		unsortedIntArray = newUnsortedIntArray();
 	}
 
 	//--------------------------------------------------------------------
@@ -157,7 +155,38 @@ public class StreamDataAndCalculationMethodsTest {
 
 	
 	//--------------------------------------------------------------------
+	// reduce() TESTS
+	//--------------------------------------------------------------------
 
+	@Test
+	public void testStreamReducer_ExplicitWithoutLambda_concatenate() {
+		BinaryOperator<String> biOperatorForConcat = new BinaryOperator<String>() {
+			@Override
+			public String apply(String concatString, String s) {
+				return concatString == null ? s : concatString + "," + s;
+			}
+		};
+		
+		Optional<String> concatenatedStreamValues = 
+				unsortedStringList.stream().sorted().reduce(biOperatorForConcat);
+		
+		LOGGER.debug("concatenatedStreamValues: {} | {}", concatenatedStreamValues, testName.getMethodName());
+		assertTrue(concatenatedStreamValues.isPresent());
+	}
+
+	@Test
+	public void testStreamReducer_ExplicitUsingLambda_concatenate() {
+		BinaryOperator<String> biOperatorForConcat = 
+			(concatString, s) -> concatString == null ? s : concatString + "," + s;
+		
+		Optional<String> concatenatedStreamValues = 
+				unsortedStringList.stream().sorted().reduce(biOperatorForConcat);
+		
+		LOGGER.debug("concatenatedStreamValues: {} | {}", concatenatedStreamValues, testName.getMethodName());
+		assertTrue(concatenatedStreamValues.isPresent());
+	}
+	
+	//--------------------------------------------------------------------
 	
 	@Test
 	public void testIntStreamReducer_ExplicitWithoutLambda_sum() {

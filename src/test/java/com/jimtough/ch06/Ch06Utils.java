@@ -31,6 +31,17 @@ class Ch06Utils {
 		stringList.addAll(Arrays.asList(A,B,C,D,E,F,G));
 		return stringList;
 	}
+
+	/**
+	 * Creates a new {@code List<String>} that contains each of the phonetic alphabet
+	 * string constants from this class, in an arbitrary non-alphabetical order
+	 * @return Non-null, non-empty {@code List<String>}
+	 */
+	static List<String> newDistinctButUnsortedStringList() {
+		List<String> unsortedStringList = new ArrayList<>();
+		unsortedStringList.addAll(Arrays.asList(B,D,G,C,A,F,E));
+		return unsortedStringList;
+	}
 	
 	static final String ONE =   "1";
 	static final String TWO =   "2";
@@ -47,6 +58,15 @@ class Ch06Utils {
 		List<String> stringList = new ArrayList<>();
 		stringList.addAll(Arrays.asList(ONE,TWO,THREE,FOUR,FIVE));
 		return stringList;
+	}
+
+	/**
+	 * Creates a new {@code int[]} that contains each of the integers from 1 to 10 (inclusive)
+	 * in an arbitrary, unsorted order
+	 * @return int[]
+	 */
+	static int[] newUnsortedIntArray() {
+		return new int[] {6,3,9,2,4,1,8,10,7,5};
 	}
 	
 }
