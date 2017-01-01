@@ -149,7 +149,7 @@ public class PeriodAndDurationTest {
 		assertEquals(0, twoSeconds.getNano());
 		
 		assertEquals(0, twoMillis.getSeconds());
-		assertEquals(2000000, twoMillis.getNano());
+		assertEquals(2_000_000, twoMillis.getNano());
 		
 		assertEquals(0, twoNanos.getSeconds());
 		assertEquals(2, twoNanos.getNano());
@@ -169,7 +169,7 @@ public class PeriodAndDurationTest {
 		LOGGER.debug("sum: {} | {}", sum, testName.getMethodName());
 		
 		assertEquals((60*60*2)+(60*2)+2, sum.getSeconds());
-		assertEquals(2000000+2, sum.getNano());
+		assertEquals(2_000_000+2, sum.getNano());
 	}
 	
 	@Test
@@ -205,7 +205,7 @@ public class PeriodAndDurationTest {
 		LOGGER.debug("parsedDuration: {} | {}", parsedDuration, testName.getMethodName());
 		
 		assertEquals((60*60*2)+(60*2)+2, parsedDuration.getSeconds());
-		assertEquals(2000000+2, parsedDuration.getNano());
+		assertEquals(2_000_000+2, parsedDuration.getNano());
 	}
 
 }
