@@ -15,6 +15,12 @@ I am reading the following book to prepare:
 
 Much of my code is organized by book chapter, as reflected by the Java package structure.
 
-I already have the OCPJP 7 certification, so I will be taking the Java 8 upgrade test.
+I already have the OCPJP 7 certification, so I will be taking the Java 8 upgrade test. 
 My code will be focused on features that are either new to Java 8, or existing features
 that I need to brush up on before I take the exam.
+
+Most of my code examples are written as JUnit test classes. I prefer to do it this way
+rather than coding a bunch of classes with a main() method as the book does it.
+I also use the JUnit assert family of methods to prove to myself that the API calls and
+built-in classes behave as I expect. The JUnit test classes are under 'src/test/java',
+which is standard for a Maven-based project. 
