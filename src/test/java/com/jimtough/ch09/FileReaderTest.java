@@ -46,7 +46,7 @@ public class FileReaderTest {
 		// The try-with-resources will auto-close the FileReader object.
 		// Now all the contents of the file are in the StringBuilder object.
 		// Write everything out to the log.
-		LOGGER.debug(sb.toString());
+		LOGGER.trace(sb.toString());
 	}
 	
 	@Test

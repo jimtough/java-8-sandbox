@@ -3,6 +3,7 @@ package com.jimtough.ch09;
 import static com.jimtough.ch09.Ch09Utils.*;
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -35,7 +36,8 @@ public class ScannerToTokenizeTextFileTest {
 		TreeMap<String,AtomicInteger> tokenToCountMap = new TreeMap<>();
 		try (
 				FileReader fr = new FileReader(BIG_SAMPLE_TEXT_FILE_PATH_A.toString());
-				Scanner scanner = new Scanner(fr);) {
+				BufferedReader br = new BufferedReader(fr);
+				Scanner scanner = new Scanner(br);) {
 			// This delimiter regex will match 'non-words'
 			scanner.useDelimiter("\\W");
 			while (scanner.hasNext()) {
@@ -55,12 +57,14 @@ public class ScannerToTokenizeTextFileTest {
 		
 		// The input file has been tokenized, and the token counts stored in the map.
 		// Output the contents of the map.
-		tokenToCountMap.forEach((key,value)->LOGGER.debug("{} | [{}]", value, key));
+		tokenToCountMap.forEach((key,value)->LOGGER.trace("{} | [{}]", value, key));
 		
 		// Now let's put things in order of counts for a quick-and-dirty view of the most used tokens
 		tokenToCountMap
 			// create a stream from the entry set of this map
 			.entrySet().stream()
+			// filter out anything that occurred less than 15 times, for brevity when logging output
+			.filter(entry->entry.getValue().get() >= 15)
 			// convert each entry to a string composed of zero-padded count + token
 			.map((entry)->String.format("%04d|%s",entry.getValue().get(),entry.getKey()))
 			// sort those converted values in ascending order
