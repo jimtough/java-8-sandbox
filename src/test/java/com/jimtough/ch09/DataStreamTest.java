@@ -55,7 +55,7 @@ public class DataStreamTest {
 		assertTrue(Files.isDirectory(TARGET_DIR));
 		Path classFileDirPath = TARGET_DIR.resolve("test-classes/com/jimtough/ch09");
 		// Path to compiled version of this class
-		Path classFilePath = classFileDirPath.resolve("ByteStreamTest.class");
+		Path classFilePath = classFileDirPath.resolve(DataStreamTest.class.getSimpleName() + ".class");
 		assertTrue(Files.exists(classFilePath));
 
 		if (startsWithJavaClassFileMagicNumber(classFilePath)) {
