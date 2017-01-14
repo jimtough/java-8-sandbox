@@ -18,4 +18,9 @@ public class Ch10Utils {
 	static final String BIG_SAMPLE_TEXT_FILE_NAME = "The Call of the Wild.txt";
 	static final Path BIG_SAMPLE_TEXT_FILE_PATH = TEST_RESOURCES_DIR.resolve(BIG_SAMPLE_TEXT_FILE_NAME);
 
+	static boolean isRunningOnWindowsOS() {
+		String osName = System.getProperty("os.name").toLowerCase();
+		return osName.contains("win");
+	}
+	
 }

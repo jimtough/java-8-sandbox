@@ -130,7 +130,14 @@ public class FilesTest {
 		LOGGER.debug("Owner of [{}]: {}", BIG_SAMPLE_TEXT_FILE_PATH, Files.getOwner(BIG_SAMPLE_TEXT_FILE_PATH));
 	}
 	
+	@Test
+	public void testIsReadableIsWritableIsExecutable() throws Exception {
+		Path filePath = BIG_SAMPLE_TEXT_FILE_PATH;
+		Path dirPath = TEST_RESOURCES_DIR;
+		LOGGER.debug("File: [{}] | readable? {} | writable? {} | executable? {}", 
+				filePath, Files.isReadable(filePath), Files.isWritable(filePath), Files.isExecutable(filePath));
+		LOGGER.debug("Dir: [{}] | readable? {} | writable? {} | executable? {}", 
+				dirPath, Files.isReadable(dirPath), Files.isWritable(dirPath), Files.isExecutable(dirPath));
+	}
+	
 }
-
-
-
