@@ -1,5 +1,6 @@
 package com.jimtough.ch11;
 
+import static com.jimtough.ch11.Ch11Utils.*;
 import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
@@ -7,9 +8,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.Before;
@@ -36,16 +35,6 @@ public class AtomicReferenceTest {
 	//--------------------------------------------------------------------
 	// AtomicReference tests (not as simple as I first thought...)
 	//--------------------------------------------------------------------
-
-	private static class SimpleThreadFactory implements ThreadFactory {
-		private final AtomicInteger count = new AtomicInteger(0);
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread t = new Thread(r, "T-" + count.incrementAndGet());
-			t.setDaemon(true);
-			return t;
-		}
-	}
 	
 	private static class LongAndLocalDateTime {
 		final long l;

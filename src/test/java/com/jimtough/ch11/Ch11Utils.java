@@ -6,6 +6,8 @@ import static java.lang.Math.tan;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Utility methods and constants used in tests for this chapter
@@ -26,6 +28,16 @@ public class Ch11Utils {
 		for (int i=0; i<numberOfIterations; i++) {
 			double d = tan(atan(tan(atan(tan(atan(tan(atan(tan(atan(123456789.123456789))))))))));
 			cbrt(d);
+		}
+	}
+
+	static class SimpleThreadFactory implements ThreadFactory {
+		private final AtomicInteger count = new AtomicInteger(0);
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread t = new Thread(r, "T-" + count.incrementAndGet());
+			t.setDaemon(true);
+			return t;
 		}
 	}
 	
