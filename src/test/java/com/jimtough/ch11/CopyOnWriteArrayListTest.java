@@ -20,7 +20,7 @@ import com.jimtough.ch11.Ch11Utils.SimpleThreadFactory;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CopyOnWriteArrayListTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AtomicReferenceTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CopyOnWriteArrayListTest.class);
 	
 	@Rule
 	public TestName testName = new TestName();
