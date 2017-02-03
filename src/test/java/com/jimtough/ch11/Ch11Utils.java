@@ -17,6 +17,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Ch11Utils {
 	
 	private Ch11Utils() {}
+
+	static final String A = "alpha";
+	static final String B = "bravo";
+	static final String C = "charlie";
+	static final String D = "delta";
+	static final String E = "echo";
+	static final String F = "foxtrot";
+	static final String G = "golf";
 	
 	static final Path TARGET_DIR = Paths.get("target");
 	static final Path TEST_RESOURCES_DIR = Paths.get("src/test/resources");
