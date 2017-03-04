@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,10 +14,12 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,6 +35,17 @@ public class ParallelStreamsTest {
 	
 	@Rule
 	public TestName testName = new TestName();
+    
+	private static List<String> TEXT_FILE_LINES;
+	
+	@BeforeClass
+	public static void oneTimeSetUp() throws Exception {
+		LOGGER.debug("Reading contents of file [{}] into a List", BIG_SAMPLE_TEXT_FILE_PATH.toAbsolutePath());
+		try (Stream<String> textFileLinesStream = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH)) {
+			List<String> lines = textFileLinesStream.collect(Collectors.toList());
+			TEXT_FILE_LINES = Collections.unmodifiableList(lines);
+		}
+	}
     
 	@Before
 	public void setUp() {}
@@ -115,11 +129,10 @@ public class ParallelStreamsTest {
 	//--------------------------------------------------------------------
 	
 	@Test
-	public void testFilesLinesSequential() throws Exception {
-		LOGGER.debug("Contents of file [{}]", BIG_SAMPLE_TEXT_FILE_PATH.toAbsolutePath());
+	public void testTextFileLinesSequential() throws Exception {
 		ThreadLocal<NumberFormat> tlnf = createThreadLocalNumberFormat();
 		final AtomicInteger lineNumber = new AtomicInteger(0);
-		try (Stream<String> textFileLinesStream = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH)) {
+		try (Stream<String> textFileLinesStream = TEXT_FILE_LINES.stream()) {
 			// Apply some stream operations
 			textFileLinesStream
 				.map(s -> tlnf.get().format(lineNumber.incrementAndGet()) + " => [" + s + "]")
@@ -132,11 +145,10 @@ public class ParallelStreamsTest {
 	}
 
 	@Test
-	public void testFilesLinesMixed() throws Exception {
-		LOGGER.debug("Contents of file [{}]", BIG_SAMPLE_TEXT_FILE_PATH.toAbsolutePath());
+	public void testTextFileLinesMixed() throws Exception {
 		ThreadLocal<NumberFormat> tlnf = createThreadLocalNumberFormat();
 		final AtomicInteger lineNumber = new AtomicInteger(0);
-		try (Stream<String> textFileLinesStream = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH)) {
+		try (Stream<String> textFileLinesStream = TEXT_FILE_LINES.stream()) {
 			// Apply some stream operations
 			textFileLinesStream
 				.map(s -> tlnf.get().format(lineNumber.incrementAndGet()) + " => [" + s + "]")
@@ -171,11 +183,10 @@ public class ParallelStreamsTest {
 		// The lines appear to be in a sane order at the end, but the lines numbers at
 		// the start of each line are in a nonsense order.
 		
-		LOGGER.debug("Contents of file [{}]", BIG_SAMPLE_TEXT_FILE_PATH.toAbsolutePath());
 		ThreadLocal<NumberFormat> tlnf = createThreadLocalNumberFormat();
 		final AtomicInteger lineNumber = new AtomicInteger(0);
 		Optional<String> concatenatedString;
-		try (Stream<String> textFileLinesStream = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH)) {
+		try (Stream<String> textFileLinesStream = TEXT_FILE_LINES.stream()) {
 			LOGGER.debug("isParallel?: {}", textFileLinesStream.isParallel());
 			// Apply some stream operations
 			concatenatedString = textFileLinesStream
@@ -192,7 +203,6 @@ public class ParallelStreamsTest {
 	
 	@Test
 	public void testReduce_A() throws Exception {
-		LOGGER.debug("Contents of file [{}]", BIG_SAMPLE_TEXT_FILE_PATH.toAbsolutePath());
 		ThreadLocal<NumberFormat> tlnf = createThreadLocalNumberFormat();
 		final AtomicInteger lineNumber = new AtomicInteger(0);
 		List<String> numberedLinesList = new ArrayList<>();
@@ -200,7 +210,7 @@ public class ParallelStreamsTest {
 		// Prefix each line with its line number first in a sequential stream.
 		// Save the results in a list that we will process in parallel below.
 		
-		try (Stream<String> textFileLinesStream = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH)) {
+		try (Stream<String> textFileLinesStream = TEXT_FILE_LINES.stream()) {
 			assertFalse(textFileLinesStream.isParallel());
 			textFileLinesStream
 					.map(s -> tlnf.get().format(lineNumber.incrementAndGet()) + " => [" + s + "]")
@@ -279,7 +289,7 @@ public class ParallelStreamsTest {
 	@Test
 	public void testCollect_C() throws Exception {
 		List<String> stringList;
-		try (Stream<String> ss = Files.lines(BIG_SAMPLE_TEXT_FILE_PATH).parallel()) {
+		try (Stream<String> ss = TEXT_FILE_LINES.parallelStream()) {
 			stringList = ss.limit(250).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 		}
 		LOGGER.debug(stringList.get(0));

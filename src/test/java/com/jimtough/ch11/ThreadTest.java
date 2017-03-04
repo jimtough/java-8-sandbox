@@ -96,13 +96,17 @@ public class ThreadTest {
 		List<Thread> threadList = new ArrayList<Thread>(NUMBER_OF_THREADS);
 		for (int i=1; i<=NUMBER_OF_THREADS; i++) {
 			Thread t = new Thread(new MyRunnable());
-			if (i == NUMBER_OF_THREADS) {
+			if (i == 1) {
+				// First thread gets MIN_PRIORITY
+				t.setPriority(Thread.MIN_PRIORITY);
+				t.setName("T-" + i + "-MIN_PRIORITY");
+			} else if (i == NUMBER_OF_THREADS) {
 				// Last thread gets MAX_PRIORITY
 				t.setPriority(Thread.MAX_PRIORITY);
 				t.setName("T-" + i + "-MAX_PRIORITY");
 			} else {
-				// All other threads get MIN_PRIORITY
-				t.setPriority(Thread.MIN_PRIORITY);
+				// All other threads get NORM_PRIORITY
+				t.setPriority(Thread.NORM_PRIORITY);
 				t.setName("T-" + i);
 			}
 			threadList.add(t);

@@ -65,7 +65,8 @@ public class AtomicReferenceTest {
 			if (curVal == null || curVal.l < candidateNewVal.l) {
 				boolean didUpdate = atomicReference.compareAndSet(curVal, candidateNewVal);
 				if (didUpdate) {
-					LOGGER.debug("New high score! {} [MAX_VALUE = {}]", candidateNewVal.l, Long.MAX_VALUE);
+					LOGGER.debug("New high score! {} | MAX_VALUE = {} | DIFF FROM MAX: {}", 
+							candidateNewVal.l, Long.MAX_VALUE, Long.MAX_VALUE - candidateNewVal.l);
 					// This is a new high score and it was successfully set on the AtomicReference.
 				} else {
 					LOGGER.debug("compareAndSet() failed! Another thread updated reference? Will try again."
