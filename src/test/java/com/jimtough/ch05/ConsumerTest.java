@@ -13,6 +13,7 @@ import java.util.function.LongConsumer;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,55 +53,82 @@ public class ConsumerTest {
 
 	@Test
 	public void testConsumerExplicitUsingLambda() {
-		// Define a Consumer implementation with a lambda expression, then pass the reference to forEach()
+		// Define a Consumer implementation with a lambda expression, then pass the reference to forEach().
+		// NOTE: This isn't something one would typically do in real code.
 		Consumer<String> consumer = s -> LOGGER.debug(s);
 		
 		stringList.stream().forEach(consumer);
 	}
 
 	@Test
-	public void testConsumerInlineUsingLambda() {
+	public void testConsumerInlineUsingLambda_A() {
 		// Define a Consumer implementation inline as a lambda expression when calling forEach()
 		stringList.stream().forEach(s -> LOGGER.debug(s));
+	}
+
+	@Test
+	public void testConsumerInlineUsingLambda_B() {
+		// Define a Consumer implementation inline as a lambda expression when calling forEach()
+		try (Stream<String> stream = stringList.stream()) {
+			// I don't care about the count, but nothing will happen on the stream
+			// without a terminal operation at the end. The peek() method is an
+			// intermediate operation.
+			stream.peek(s -> LOGGER.debug(s)).count();
+		}
 	}
 
 	//--------------------------------------------------------------------
 	
 	@Test
-	public void testIntConsumerExplicitWithoutLambda() {
+	public void testIntConsumerExplicitWithoutLambda_A() {
 		// Define a IntConsumer implementation the old pre-lambda way, as an anonymous class
-		final AtomicInteger atomicInteger = new AtomicInteger(0);
 		IntConsumer consumer = new IntConsumer() {
 			@Override
 			public void accept(int i) {
-				atomicInteger.addAndGet(i);
+				LOGGER.debug(Integer.toString(i));
 			}
 		};
 		
 		IntStream.rangeClosed(1, 4).forEach(consumer);
-
-		assertEquals(10, atomicInteger.get());
+	}
+	
+	@Test
+	public void testIntConsumerExplicitWithoutLambda_B() {
+		// NOTE: It is still not clear to me if this is a valid use of IntConsumer.
+		//       Is this valid, since the IntConsumer implementation is thread-safe
+		//       and does not reference any objects that are not internal to it?
+		//       
+		//       I suspect that this is valid, because the Java 8 docs for Consumer say:
+		//       "Unlike most other functional interfaces, Consumer is expected to operate via side-effects."
+		//
+		final class MyIntConsumer implements IntConsumer {
+			AtomicInteger counter = new AtomicInteger(0);
+			AtomicInteger summer = new AtomicInteger(0);
+			@Override public void accept(int i) {
+				counter.incrementAndGet();
+				summer.addAndGet(i);
+			}
+		};
+		MyIntConsumer consumer = new MyIntConsumer();
+		
+		IntStream.rangeClosed(1, 4).forEach(consumer);
+		
+		assertEquals(4, consumer.counter.get());
+		assertEquals(10, consumer.summer.get());
 	}
 	
 	@Test
 	public void testIntConsumerExplicitUsingLambda() {
 		// Define an IntConsumer implementation with a lambda expression, then pass the reference to forEach()
-		final AtomicInteger atomicInteger = new AtomicInteger(0);
-		IntConsumer consumer = i -> atomicInteger.addAndGet(i);
+		// NOTE: This isn't something one would typically do in real code.
+		IntConsumer consumer = i -> LOGGER.debug(Integer.toString(i));
 		
 		IntStream.rangeClosed(1, 4).forEach(consumer);
-
-		assertEquals(10, atomicInteger.get());
 	}
 	
 	@Test
 	public void testIntConsumerInlineUsingLambda() {
-		// Define an IntConsumer implementation inline as a lambda expression when calling forEach()
-		final AtomicInteger atomicInteger = new AtomicInteger(0);
-		
-		IntStream.rangeClosed(1, 4).forEach(i -> atomicInteger.addAndGet(i));
-
-		assertEquals(10, atomicInteger.get());
+		IntStream.rangeClosed(1, 4).forEach(i -> LOGGER.debug(Integer.toString(i)));
 	}
 
 	//--------------------------------------------------------------------

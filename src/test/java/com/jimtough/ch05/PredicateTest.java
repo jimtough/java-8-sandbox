@@ -60,8 +60,13 @@ public class PredicateTest {
 				return false;
 			}
 		};
-		
-		Object[] output = stringList.stream().filter(pred).toArray();
+
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+				.filter(pred)
+				.toArray();
+		}
 
 		verifyFilter(output);
 	}
@@ -100,8 +105,13 @@ public class PredicateTest {
 				return i % 200000 == 0;
 			}
 		};
-		
-		int[] output = IntStream.rangeClosed(1, 1000000).filter(pred).toArray();
+
+		final int[] output;
+		try (IntStream intStream = IntStream.rangeClosed(1, 1000000)) {
+			output = intStream
+				.filter(pred)
+				.toArray();
+		}
 
 		verifyIntFilter(output);
 	}

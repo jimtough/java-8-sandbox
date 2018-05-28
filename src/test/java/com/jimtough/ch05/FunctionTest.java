@@ -18,6 +18,7 @@ import java.util.function.ToLongFunction;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -75,8 +76,13 @@ public class FunctionTest {
 				return s.toUpperCase();
 			}
 		};
-		
-		Object[] output = stringList.stream().map(function).toArray();
+
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+					.map(function)
+					.toArray();
+		}
 		
 		verifyFunction(output);
 	}
@@ -86,7 +92,12 @@ public class FunctionTest {
 		// Define a Function implementation with a lambda expression, then pass the reference to map()
 		Function<String,String> function = s -> s.toUpperCase();
 		
-		Object[] output = stringList.stream().map(function).toArray();
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+					.map(function)
+					.toArray();
+		}
 		
 		verifyFunction(output);
 	}
@@ -96,26 +107,43 @@ public class FunctionTest {
 		// Define a Function implementation with a lambda expression, then pass the reference to map()
 		Function<String,String> function = String::toUpperCase;
 		
-		Object[] output = stringList.stream().map(function).toArray();
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+					.map(function)
+					.toArray();
+		}
 		
 		verifyFunction(output);
 	}
 
 	@Test
 	public void testFunctionInlineUsingLambda() {
-		Object[] output = stringList.stream().map(s -> s.toUpperCase()).toArray();
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+					.map(s -> s.toUpperCase())
+					.toArray();
+		}
 		
 		verifyFunction(output);
 	}
 
 	@Test
 	public void testFunctionInlineUsingMethodReference() {
-		Object[] output = stringList.stream().map(String::toUpperCase).toArray();
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream
+					.map(String::toUpperCase)
+					.toArray();
+		}
 		
 		verifyFunction(output);
 	}
 
 	//--------------------------------------------------------------------
+	
+	// Combining multiple functions together
 	
 	@Test
 	public void testCombiningFunctionsUsingAndThen() {
@@ -134,8 +162,11 @@ public class FunctionTest {
 		// 'andThen()' will make passed in function execute AFTER
 		Function<String,String> functionToUpperCaseAndAddExclamation = 
 				functionToUpperCase.andThen(functionAddSExclamation);
-		
-		Object[] output = stringList.stream().map(functionToUpperCaseAndAddExclamation).toArray();
+
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream.map(functionToUpperCaseAndAddExclamation).toArray();
+		}
 		
 		LOGGER.debug("{} | {}", Arrays.toString(output), testName.getMethodName());
 		assertEquals(stringList.size(), output.length);
@@ -159,7 +190,10 @@ public class FunctionTest {
 		Function<String,String> functionAddExclamationThenToUpperCase = 
 				functionToUpperCase.compose(functionAddSExclamation);
 		
-		Object[] output = stringList.stream().map(functionAddExclamationThenToUpperCase).toArray();
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream.map(functionAddExclamationThenToUpperCase).toArray();
+		}
 		
 		LOGGER.debug("{} | {}", Arrays.toString(output), testName.getMethodName());
 		assertEquals(stringList.size(), output.length);
@@ -169,8 +203,11 @@ public class FunctionTest {
 
 	@Test
 	public void testIdentityFunction() {
-		// The built-in 'identity()' Function just returns the original value. Useful as a test stub?
-		Object[] output = stringList.stream().map(Function.identity()).toArray();
+		// The built-in 'identity()' Function just returns the original value.
+		final Object[] output;
+		try (Stream<String> stream = stringList.stream()) {
+			output = stream.map(Function.identity()).toArray();
+		}
 		
 		LOGGER.debug("{} | {}", Arrays.toString(output), testName.getMethodName());
 		assertEquals(stringList.size(), output.length);

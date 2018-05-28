@@ -2,14 +2,18 @@ package com.jimtough.ch05;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -40,9 +44,9 @@ public class SupplierTest {
 	
 	@Test
 	public void testSupplierExplicitWithoutLambda() {
-		final AtomicInteger ai = new AtomicInteger(0);
 		// Define a Supplier implementation the old pre-lambda way, as an anonymous class
 		Supplier<String> supplier = new Supplier<String>() {
+			private final AtomicInteger ai = new AtomicInteger(0);
 			@Override
 			public String get() {
 				return Integer.toString(ai.incrementAndGet());
@@ -59,22 +63,34 @@ public class SupplierTest {
 	}
 	
 	@Test
-	public void testSupplierExplicitUsingLambda() {
-		final AtomicInteger ai = new AtomicInteger(0);
-		// Define a Supplier implementation using a Lambda expression
-		Supplier<String> supplier = () -> Integer.toString(ai.incrementAndGet());
-
-		Object[] output = Stream.generate(supplier).limit(10).toArray();
+	public void testSupplierExplicitUsingMethodReference() {
+		Supplier<LocalTime> supplier = LocalTime::now;
 		
-		LOGGER.debug("{} | {}", Arrays.toString(output), testName.getMethodName());
-		assertEquals(10, output.length);
+		List<LocalTime> timeList = Stream.generate(supplier).limit(10).collect(Collectors.toList());
+		
+		LOGGER.debug("{} | {}", timeList, testName.getMethodName());
+		assertEquals(10, timeList.size());
+	}
+	
+	@Test
+	public void testSupplierInlineUsingMethodReference() {
+		int[] intArray = IntStream.generate(ThreadLocalRandom.current()::nextInt).limit(10).toArray();
+		
+		LOGGER.debug("{} | {}", Arrays.toString(intArray), testName.getMethodName());
+		assertEquals(10, intArray.length);
 	}
 	
 	@Test
 	public void testSupplierInlineUsingLambda() {
 		final AtomicInteger ai = new AtomicInteger(0);
 
-		Object[] output = Stream.generate(() -> Integer.toString(ai.incrementAndGet())).limit(10).toArray();
+		final Object[] output;
+		// QUESTION: Is my lambda-based Supplier a proper use of streams?
+		//           It is thread-safe, since AtomicInteger is thread-safe.
+		//           Seems as if this should be free of side-effects.
+		try (Stream<String> stream = Stream.generate(() -> Integer.toString(ai.incrementAndGet()))) {
+			output = stream.limit(10).toArray();
+		}
 		
 		LOGGER.debug("{} | {}", Arrays.toString(output), testName.getMethodName());
 		assertEquals(10, output.length);
