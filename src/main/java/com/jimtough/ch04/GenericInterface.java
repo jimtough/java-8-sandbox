@@ -10,7 +10,9 @@ package com.jimtough.ch04;
  */
 interface GenericInterface<T, N extends Number> {
 
-	// Suppress annoying "Potential heap pollution via varargs" compiler warning
+	// Suppress annoying "Potential heap pollution via varargs" compiler warning.
+	// Read "Effective Java 3rd edition" for an explanation of what the warning means,
+	// and how to properly use the @SafeVarargs annotation to address it.
 	@SuppressWarnings("unchecked")
 	// A simple method of this generic interface
 	double sum(N... n);

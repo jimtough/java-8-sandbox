@@ -19,6 +19,13 @@ public class LambdaFunctionsTest {
 	private interface HelloWorldInterface {
 		void sayHelloWorld();
 	}
+
+	@Test
+	public void testHelloWorldInterface() {
+		// A lambda expression with no parameters
+		HelloWorldInterface lambda = () -> LOGGER.debug("Hello, world!");
+		lambda.sayHelloWorld();
+	}
 	
 	@Test
 	public void testA() {
@@ -40,6 +47,7 @@ public class LambdaFunctionsTest {
 		// A lambda expression with inferred parameter types and a block lambda
 		// inside curly braces
 		MyFunctionalInterface lambda = (x, y) -> {
+			// Calling a public static method that was declared in MyFunctionalInterface
 			if (MyFunctionalInterface.isAGreaterThanB(x, y)) {
 				return x;
 			}
@@ -58,13 +66,6 @@ public class LambdaFunctionsTest {
 			return Math.max(x, y);
 		};
 		assertEquals(2, lambda.max(2, 1));
-	}
-
-	@Test
-	public void testHelloWorldInterface() {
-		// A lambda expression with no parameters
-		HelloWorldInterface lambda = () -> LOGGER.debug("Hello, world!");
-		lambda.sayHelloWorld();
 	}
 
 	@Test

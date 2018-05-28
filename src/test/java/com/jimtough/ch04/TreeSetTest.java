@@ -1,5 +1,6 @@
 package com.jimtough.ch04;
 
+import static com.jimtough.ch04.Ch04Utils.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -12,14 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TreeSetTest {
-
-	private static final String A = "alpha";
-	private static final String B = "bravo";
-	private static final String C = "charlie";
-	private static final String D = "delta";
-	private static final String E = "echo";
-	private static final String F = "foxtrot";
-	private static final String G = "golf";
 	
 	private TreeSet<String> treeSet;
 	
